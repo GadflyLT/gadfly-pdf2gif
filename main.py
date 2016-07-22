@@ -8,13 +8,14 @@ by Joe Romano
 
 First, load the venv (source /venv/bin/activate)
 Usage: python main.py [path to pdf to convert] [name for AWS remote subdirectory] [output location]
+AWS Path for us: https://s3.amazonaws.com/lease-pilot-production/casto/signage_criteria
 '''
 
 ################################################################################
 
 def main(argv):
     converting_file = argv[0]
-    sub_path = argv[1]
+    remote_path = argv[1]
 
     print("Currently converting file: ", converting_file)
 
@@ -28,7 +29,7 @@ def main(argv):
     with Image(filename = converting_file, resolution=200) as pdf:
 
         # generate the template file
-        generate_haml(subdirectory, sub_path, len(pdf.sequence))
+        generate_haml(subdirectory, remote_path, len(pdf.sequence))
 
         # give info on what we're doing
         print("Saving " + str(len(pdf.sequence)) + " pages, [width=" +
@@ -49,7 +50,7 @@ def main(argv):
 ################################################################################
 
 # generate the HAML file that loads all images
-def generate_haml(building_template_url, sub_path, pages):
+def generate_haml(building_template_url, remote_path, pages):
 
     # set up the directory
     haml_templates = "haml_templates"
@@ -61,8 +62,8 @@ def generate_haml(building_template_url, sub_path, pages):
     # open files and fill them in
     with open(os.path.join(haml_templates, building_template_url + ".html.haml"), "w") as outf:
         for i in range(pages):
-            outf.write("%img.embedded-page{ 'src': \"https://s3.amazonaws.com/lease-pilot-production/" +
-                sub_path + "/" + building_template_url + "/" + str(i) + ".gif\" }\n")
+            outf.write("%img.embedded-page{ 'src': \"" + remote_path + "/" +
+                building_template_url + "/" + str(i) + ".gif\" }\n")
             outf.write("<br style=\"page-break-before:always\"/>\n")
         outf.write("\n%p{ 'ng-show': 'false' } !!FULL_IMAGE_STYLE_SECTION!!")
 
