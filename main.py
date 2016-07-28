@@ -23,7 +23,7 @@ def main(argv):
     converting_file = argv[0]
     remote_path = argv[1]
     output_location = argv[2]
-    bldg_name = converting_file[:-4]
+    root, bldg_name = os.path.split(converting_file[:-4])
     print("\033[92m" + "[INFO] Currently converting file: ", converting_file)
 
     # generate a subdirectory for the gifs to live in
@@ -34,9 +34,9 @@ def main(argv):
     with Image(filename = converting_file, resolution=200) as pdf:
 
         # determine the correct page type
-        if abs((pdf.width / pdf.height) - 0.7727272727) < 0.2:
+        if abs((pdf.width / pdf.height) - 0.7727272727) < 0.02:
             page_type = "LETTER"
-        elif abs((pdf.width / pdf.height) - 0.6071428571) < 0.2:
+        elif abs((pdf.width / pdf.height) - 0.6071428571) < 0.02:
             page_type = "LEGAL"
         else:
             page_type = "UNKNOWN"
