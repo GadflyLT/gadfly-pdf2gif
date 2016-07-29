@@ -73,7 +73,7 @@ def generate_haml(building_template_url, remote_path, pages, output_location, pa
     with open(os.path.join(haml_templates, building_template_url + ".html.haml"), "w") as outf:
         for i in range(pages):
             outf.write("%img.embedded-page{ 'src': \"" + remote_path + "/" +
-                building_template_url + "/" + str(i) + ".gif\" }\n")
+                building_template_url + "/" + str(i + 1) + ".gif\" }\n")
             outf.write("<br style=\"page-break-before:always\"/>\n")
         outf.write("\n%p{ 'ng-show': 'false' } !!FULL_IMAGE_STYLE_SECTION_" + page_type + "!!")
 
