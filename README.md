@@ -1,7 +1,8 @@
 # gadfly-pdf2gif
-Python script to convert multipage PDF into multi-GIF files
+Python script to convert multipage PDF into multi-GIF files.  Provided a PDF file, it will output one GIF file per page, and a HAML file with the images included and the proper tag for the .NET converter service.
 
 # Setup
+This script uses Python 2.7 and Wand (based on ImageMagick).
 
     brew install python
     pip install Wand
